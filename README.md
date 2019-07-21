@@ -1,0 +1,2 @@
+# springHibernateDemo
+spring4整合hibernate4
