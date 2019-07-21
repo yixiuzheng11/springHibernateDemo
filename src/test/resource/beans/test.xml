@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+
+<beans>
+
+	<bean id="validEmptyWithDescription" class="beans.TestBean">
+		<description>
+			I have no properties and I'm happy without them.
+		</description>
+	</bean>
+
+	<!--
+		Check automatic creation of alias, to allow for names that are illegal as XML ids.
+	-->
+	<!--myalias, youralias都是id=aliased的bean的别名-->
+	<bean id="aliased" class="beans.TestBean" name="myalias">
+		<property name="name"><value>aliased</value></property>
+	</bean>
+
+	<alias name="aliased" alias="youralias"/>
+
+	
+	<alias name="multiAliased" alias="alias3"/>
+	
+	<bean id="multiAliased" class="beans.TestBean" name="alias1,alias2">
+		<property name="name"><value>aliased</value></property>
+	</bean>
+	
+	<alias name="multiAliased" alias="alias4"/>
+<!-- 
+	<bean class="beans.TestBean" name="aliasWithoutId1,aliasWithoutId2,aliasWithoutId3">
+		<property name="name"><value>aliased</value></property>
+	</bean>
+
+	<bean class="beans.TestBean">
+		<property name="name"><null/></property>
+	</bean>
+
+	<bean id="rod" class="beans.TestBean">
+		<property name="name"><value>a commentRod</value></property>
+		<property name="age"><value>31</value></property>
+		<property name="spouse"><ref bean="father"/></property>
+		<property name="touchy"><value/></property>
+	</bean>
+
+	<bean id="roderick" parent="rod">
+		<property name="name"><value>Rodericka comment</value></property>
+		Should inherit age
+	</bean>
+
+	<bean id="kerry" class="beans.TestBean">
+		<property name="name"><value>Kera commentry</value></property>
+		<property name="age"><value>34</value></property>
+		<property name="spouse"><ref bean="rod"/></property>
+		<property name="touchy"><value></value></property>
+	</bean>
+
+	<bean id="kathy" class="beans.TestBean" scope="prototype">
+		<property name="name"><value>Kathy</value></property>
+		<property name="age"><value>28</value></property>
+		<property name="spouse"><ref bean="father"/></property>
+	</bean>
+
+	<bean id="typeMismatch" class="beans.TestBean" scope="prototype">
+		<property name="name"><value>typeMismatch</value></property>
+		<property name="age"><value>34x</value></property>
+		<property name="spouse"><ref bean="rod"/></property>
+	</bean>
+
+	<bean id="listenerVeto" class="beans.TestBean">
+		<property name="name"><value>listenerVeto</value></property>
+		<property name="age"><value>66</value></property>
+	</bean>
+
+	<bean id="validEmpty" class="beans.TestBean"/> -->
+
+	<bean id="commentsInValue" class="beans.TestBean">
+	  <property name="name"><value>this isdon't mind me a <![CDATA[<!--comment-->]]></value></property>
+	</bean>
+</beans>

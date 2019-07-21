@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!--开启annotation -->  
+    <context:annotation-config />
+ 	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 --> 
+ 	<context:component-scan base-package="com"/>
+
+    <!--设置配置文件路径 -->
+    <!--<context:property-placeholder location="classpath:config/init.properties"/>-->
+    <bean id="placeholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:config/init.properties</value>
+            </list>
+        </property>
+    </bean>
+  
+ 	<!-- 配置c3p0数据源 --> 
+ 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">      
+    	<property name="driverClass" value="${jdbc_driver}"/>         
+    	<property name="jdbcUrl" value="${jdbc_url}"/>         
+    	<property name="user" value="${jdbc_user}"/>         
+    	<property name="password" value="${jdbc_password}"/>
+    	<!--配置连接池初始值 -->  
+        <property name="acquireIncrement" value="${c3p0.acquireIncrement}"></property>  
+        <property name="initialPoolSize" value="${c3p0.initialPoolSize}"></property>  
+        <!--当最少空闲连接时，连接数小于该值，就会自动申请一些连接 -->  
+        <property name="minPoolSize" value="${c3p0.minPoolSize}"></property>
+        <property name="maxIdleTime" value="${c3p0.maxIdleTime}"></property>
+        <property name="maxPoolSize" value="${c3p0.maxPoolSize}"></property>
+	</bean> 
+
+ 	<!-- 配置jdbc模板 --> 
+ 	<!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+ 		<property name="dataSource" ref="dataSource" />
+ 	</bean>-->
+    <!--配置事务管理器 -->  
+    <!--<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>-->
+
+    <!-- 使用hibernateTemplate -->
+    <!--<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>-->
+
+    <!-- 定义hibernate的sessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+
+                <!-- 配置二级缓存 -->
+                <!-- hibernate4以前的版本 配置缓存的提供类-->
+                <!--<prop key="hibernate.cache.provider_class">${hibernate.cache.provider_class}</prop>-->
+                <!--hibernate4以后版本二级缓存的提供类-->
+                <prop key="hibernate.cache.region.factory_class">${hibernate.cache.factory_class}</prop>
+                <!-- 是否启用二级缓存 要启用查询缓存必须设置query.setCacheable(true)-->
+                <prop key="hibernate.cache.use_second_level_cache">true</prop>
+                <!-- 是否启用查询缓存 -->
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <!-- 指定配置文件-->
+                <prop key="hibernate.cache.provider_configuration_file_resource_path">ehcache.xml</prop>
+            </props>
+        </property>
+        <property name="mappingLocations">
+            <list>
+                <!-- 这两种写法都可以 -->
+                <!-- <value>classpath:/hbm/*.hbm.xml</value> -->
+                <value>classpath:hbm/*.hbm.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置Spring声明式事务 -->
+    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+            <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!--配置AOP, spring是通过AOP来管理事务 -->
+    <aop:config>
+        <!--设置pointcut，表明那些方法中加入事务 -->
+        <aop:pointcut id="methods" expression="execution(* com.service..*.*(..))" />
+        <!--通过advisor来确定具体要加入事务处理的方法 -->  
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="methods" />
+    </aop:config>
+
+    <!--配置那些方法要加入事务控制 -->  
+    <tx:advice id="txAdvice" transaction-manager="txManager">  
+        <tx:attributes>
+            <!--表示所有方法都加入事务控制 -->
+            <tx:method name="save*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="del*" propagation="REQUIRED" />
+            <tx:method name="query*" propagation="SUPPORTS"  read-only="true"/>
+            <tx:method name="select*" propagation="SUPPORTS"  read-only="true"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="*" propagation="SUPPORTS" read-only="true" />
+        </tx:attributes>  
+    </tx:advice>  
+ </beans>

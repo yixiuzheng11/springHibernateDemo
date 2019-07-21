@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping 
+    PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.model.Book" table="B_BOOK">
+            <!-- <generator>：指定主键由什么生成，推荐使用uuid，assigned指用户手工填入。设定标识符生成器
+            适应代理主键的有：
+                increment：有Hibernat自动以递增的方式生成标识符，每次增量1；
+                identity：由底层数据库生成标识符，前提条件是底层数据库支持自动增长字段类型。（DB2,MYSQL）
+                uuid:用128位的UUID算法生成字符串类型标识符。
+            适应自然主键：
+                assigned:由java程序负责生成标识符，为了能让java应用程序设置OID,不能把setId（）方法设置成private类型 -->
+        <cache usage="read-write"/>
+        <id name="id" type="java.lang.Integer">
+             <column name="id" />
+             <generator class="increment" />
+        </id>  
+
+		<property name="name" type="java.lang.String">
+             <column name="name" length="60" />
+        </property>
+		<property name="price" type="java.math.BigDecimal">
+             <column name="price" />
+        </property>
+	</class>
+</hibernate-mapping>
+

@@ -1,0 +1,188 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>springDemo</groupId>
+  <artifactId>springDemo</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>springDemo Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+        <!-- 统一源码的编码方式 -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- 统一版本 -->
+        <servlet.version>3.1.0</servlet.version>
+   		<jsp.version>2.2</jsp.version>
+        <spring.version>4.3.9.RELEASE</spring.version>
+        <!--<hibernate.version>3.6.9.Final</hibernate.version>-->
+        <hibernate.version>4.3.9.Final</hibernate.version>
+        <mysql.version>5.1.9</mysql.version>
+        <jdk.version>1.7</jdk.version>
+        <junit.version>4.12</junit.version>
+        <slf4j.version>1.7.2</slf4j.version>
+        <jstl.version>1.2</jstl.version>
+        <standard.version>1.1.2</standard.version>
+  </properties>
+
+  <dependencies>
+      <!--slf4j+log4j， hibernate-ehcache里面已经依赖了slf4j-log4j12，所以这里注释掉 -->
+      <!--<dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-log4j12</artifactId>
+          <version>1.7.2</version>
+      </dependency>-->
+      <!-- Web Dependencies -->
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>${servlet.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>javax.servlet.jsp</groupId>
+          <artifactId>jsp-api</artifactId>
+          <version>${jsp.version}</version>
+      </dependency>
+      <!-- Spring+Junit依赖 -->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-test</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <!-- Spring 核心依赖 -->
+      <dependency>
+          <groupId>org.springframework</groupId >
+          <artifactId>spring-context</artifactId >
+          <version> ${spring.version}</version >
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-core</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId >
+          <artifactId>spring-beans</artifactId >
+          <version> ${spring.version}</version >
+      </dependency>
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-aop</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <!-- Spring web依赖 -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-web</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <!-- Spring事物管理 -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-tx</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <!-- 面向切面编程 -->
+      <dependency>
+          <groupId>org.aspectj</groupId>
+          <artifactId>aspectjweaver</artifactId>
+          <version>1.9.0</version>
+      </dependency>
+      <!-- spring jdbcTemplate -->
+      <dependency>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-jdbc</artifactId>
+          <version>${spring.version}</version>
+      </dependency>
+      <!--Spring整合ORM框架依赖，比如整合hibernate就会用到-->
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-orm</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <!-- Spring MVC依赖 -->
+      <!--<dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-webmvc</artifactId>
+        <version>${spring.version}</version>
+      </dependency>-->
+
+      <!--mysql数据库驱动 -->
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>${mysql.version}</version>
+      </dependency>
+      <!--c3p0 -->
+      <dependency>
+          <groupId>com.mchange</groupId>
+          <artifactId>c3p0</artifactId>
+          <version>0.9.5.2</version>
+      </dependency>
+
+      <!-- hibernate4 -->
+      <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-core</artifactId>
+          <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>org.javassist</groupId>
+          <artifactId>javassist</artifactId>
+          <version>3.20.0-GA</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-ehcache</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+  </dependencies>
+
+  <build>
+    <!--最终生成的war文件名-->
+    <finalName>springDemo</finalName>
+    <plugins>
+        <!-- 生成war包 -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.7.0</version>
+            <configuration>
+                <source>${jdk.version}</source>
+                <target>${jdk.version}</target>
+                <encoding>UTF-8</encoding>
+            </configuration>
+        </plugin>
+		<!-- 发布到jetty -->
+        <plugin>
+			<groupId>org.mortbay.jetty</groupId>
+			<artifactId>jetty-maven-plugin</artifactId>
+			<version>8.1.16.v20140903</version>
+			<configuration>
+				<webApp>
+					<contextPath>/springDemo</contextPath>
+					<!-- <defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor> -->
+				</webApp>
+				<connectors>
+					<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+						<port>8080</port>
+					</connector>
+				</connectors>
+			</configuration>
+		</plugin>
+    </plugins>
+  </build>
+
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+</project>
