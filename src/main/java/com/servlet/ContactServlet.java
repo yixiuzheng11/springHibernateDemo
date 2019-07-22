@@ -1,6 +1,5 @@
 package com.servlet;
 
-import com.model.Book;
 import com.model.Contact;
 import org.springframework.context.ApplicationContext;
 import com.service.BookService;
@@ -10,7 +9,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ContactServlet extends HttpServlet {

@@ -1,13 +1,14 @@
 package com.dao.impl;
 
 import java.util.List;
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+
+import com.dao.BaseDao;
 import org.springframework.util.StringUtils;
 import com.dao.BookDao;
 import com.model.Book;
 
 //@Repository
-public class BookHibernateDao extends HibernateDaoSupport implements BookDao {
+public class BookHibernateDao extends BaseDao implements BookDao {
 	public void save(Book book) {
 		// TODO Auto-generated method stub
 		this.getHibernateTemplate().save(book);
@@ -15,12 +16,12 @@ public class BookHibernateDao extends HibernateDaoSupport implements BookDao {
 
 	public void delete(Book book) {
 		// TODO Auto-generated method stub
-
+		this.getHibernateTemplate().delete(book);
 	}
 
 	public void update(Book book) {
 		// TODO Auto-generated method stub
-
+		this.getHibernateTemplate().update(book);
 	}
 
 	public List<Book> query(String whereSql) {

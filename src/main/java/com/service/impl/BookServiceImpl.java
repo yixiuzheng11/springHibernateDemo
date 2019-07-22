@@ -27,25 +27,22 @@ public class BookServiceImpl implements BookService {
 	}
 
 	public void save(Contact contact, Book book) {
-		// TODO Auto-generated method stub
-		contactDao.save(contact);
-		//System.out.println(1/0);
 		bookDao.save(book);
 	}
 
 	public void delete(Book book) {
 		// TODO Auto-generated method stub
-
+		bookDao.delete(book);
 	}
 
 	public void update(Book book) {
 		// TODO Auto-generated method stub
-
+		bookDao.update(book);
 	}
 
-	public List<Book> query() {
+	public List<Book> query(String whereSql) {
 		// TODO Auto-generated method stub
-		return bookDao.query(null);
+		return bookDao.query(whereSql);
 	}
 
 }

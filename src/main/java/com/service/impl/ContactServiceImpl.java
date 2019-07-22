@@ -22,12 +22,12 @@ public class ContactServiceImpl implements ContactService {
 
 	public void delete(Contact contact) {
 		// TODO Auto-generated method stub
-
+		contactDao.delete(contact);
 	}
 
 	public void update(Contact contact) {
 		// TODO Auto-generated method stub
-
+		contactDao.update(contact);
 	}
 
 	public List<Contact> query(String whereSql) {

@@ -2,13 +2,13 @@ package com.dao.impl;
 
 import java.util.List;
 
-import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import com.dao.BaseDao;
 import org.springframework.util.StringUtils;
 import com.dao.ContactDao;
 import com.model.Contact;
 
 //@Repository
-public class ContactHibernateDao extends HibernateDaoSupport implements ContactDao {
+public class ContactHibernateDao extends BaseDao implements ContactDao {
 
 	public void save(Contact contact) {
 		this.getHibernateTemplate().save(contact);

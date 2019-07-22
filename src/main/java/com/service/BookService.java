@@ -9,5 +9,5 @@ public interface BookService {
 	public void save(Contact contact, Book book);
 	public void delete(Book book);
 	public void update(Book book);
-	public List<Book> query();
+	public List<Book> query(String whereSql);
 }
