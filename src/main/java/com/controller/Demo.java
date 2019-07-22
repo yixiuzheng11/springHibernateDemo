@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value = {"classpath:spring/applicationContext.xml"})
+@ContextConfiguration(value = {"classpath:spring/applicationContext.xml","classpath:spring/beans.xml"})
 public class Demo {
     @Autowired
     private BookHibernateDao bookHibernateDao;
